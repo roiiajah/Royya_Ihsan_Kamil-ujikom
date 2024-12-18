@@ -5,12 +5,12 @@ using UnityEngine;
 public class AnimalSpawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
-    public GameObject animalPrefab; 
-    public Transform spawnPoint; 
-    public float spawnInterval = 2f; 
+    public GameObject[] animalPrefabs; 
+    public Transform[] spawnPoints;    
+    public float spawnInterval = 2f;   
 
     [Header("Movement Settings")]
-    public float moveSpeed = 5f; 
+    public float moveSpeed = 5f;       
 
     private float spawnTimer;
 
@@ -19,22 +19,28 @@ public class AnimalSpawner : MonoBehaviour
         
         spawnTimer -= Time.deltaTime;
 
-        // Jika waktunya spawn
         if (spawnTimer <= 0f)
         {
-            SpawnAnimal();
+            SpawnAnimals(); 
             spawnTimer = spawnInterval; 
         }
     }
 
-    void SpawnAnimal()
+    void SpawnAnimals()
     {
         
-        GameObject newAnimal = Instantiate(animalPrefab, spawnPoint.position, spawnPoint.rotation);
+        foreach (Transform spawnPoint in spawnPoints)
+        {
+           
+            GameObject randomAnimal = animalPrefabs[Random.Range(0, animalPrefabs.Length)];
 
-        
-        AnimalMovement movement = newAnimal.AddComponent<AnimalMovement>();
-        movement.SetMoveSpeed(moveSpeed);
+            
+            GameObject newAnimal = Instantiate(randomAnimal, spawnPoint.position, spawnPoint.rotation);
+
+            
+            AnimalMovement movement = newAnimal.AddComponent<AnimalMovement>();
+            movement.SetMoveSpeed(moveSpeed);
+        }
     }
 }
 
@@ -42,7 +48,6 @@ public class AnimalMovement : MonoBehaviour
 {
     private float moveSpeed;
 
-   
     public void SetMoveSpeed(float speed)
     {
         moveSpeed = speed;
