@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Variabel untuk gerakan player
-    public float moveSpeed = 5f; // Kecepatan gerak kiri/kanan
-    public GameObject foodPrefab; // Prefab objek makanan
-    public Transform throwPoint; // Titik spawn makanan
-    public float throwForce = 10f; // Kekuatan lemparan
+    
+    public float moveSpeed = 5f; 
+    public GameObject foodPrefab; 
+    public Transform throwPoint; 
+    public float throwForce = 10f; 
 
     void Update()
     {
-        // Fungsi untuk bergerak kiri/kanan
+        
         MovePlayer();
 
-        // Fungsi untuk melempar objek makanan
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             ThrowFood();
@@ -24,28 +24,28 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        // Input tombol A dan D untuk pergerakan
+        
         float moveDirection = 0;
 
-        if (Input.GetKey(KeyCode.A)) // Tombol A → gerak ke kiri
+        if (Input.GetKey(KeyCode.A)) 
         {
             moveDirection = -1;
         }
-        else if (Input.GetKey(KeyCode.D)) // Tombol D → gerak ke kanan
+        else if (Input.GetKey(KeyCode.D)) 
         {
             moveDirection = 1;
         }
 
-        // Gerakkan player dalam sumbu X
+        
         transform.Translate(Vector3.right * moveDirection * moveSpeed * Time.deltaTime);
     }
 
     void ThrowFood()
     {
-        // Spawn objek makanan di titik lemparan
+        
         GameObject food = Instantiate(foodPrefab, throwPoint.position, Quaternion.identity);
         
-        // Tambahkan gaya (force) ke makanan agar dilempar ke depan
+        
         Rigidbody rb = food.GetComponent<Rigidbody>();
         if (rb != null)
         {
